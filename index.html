@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qalan Ultra Style - Final</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Nunito', sans-serif; 
+            background: linear-gradient(180deg, #E0F2FE 0%, #F0F9FF 100%);
+            min-height: 100vh;
+        }
+        .main-card {
+            background: white;
+            border-radius: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            border: 4px solid #F0F4F8;
+            position: relative;
+            z-index: 10;
+        }
+        .character-box {
+            position: relative;
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .btn-primary {
+            background: #22C55E;
+            box-shadow: 0 6px 0 #16A34A;
+            transition: all 0.1s;
+        }
+        .btn-primary:active {
+            box-shadow: 0 0 0 #16A34A;
+            transform: translateY(6px);
+        }
+        .code-area {
+            background: #1E293B;
+            color: #38BDF8;
+            border-radius: 15px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        .top-center-header {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body class="flex flex-col items-center p-4 relative overflow-x-hidden pt-20">
+
+    <div class="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-full max-w-sm">
+        <div class="top-center-header px-6 py-2 rounded-full shadow-md text-center border-b-2 border-blue-100">
+            <span class="text-xs font-black text-blue-500 uppercase tracking-widest">Курс: JavaScript Негіздері</span>
+            <div class="text-sm font-bold text-gray-700">№1 Сабақ: Алғашқы қадамдар</div>
+        </div>
+    </div>
+
+    <div class="hidden lg:block absolute top-24 left-10 max-w-[200px]">
+        <p class="text-xs text-slate-500 font-bold bg-white/50 p-4 rounded-2xl border-2 border-dashed border-blue-200">
+            📌 <span class="text-blue-600 uppercase">Нұсқаулық:</span><br>
+            Кодты жазып болған соң, жасыл батырманы басуды ұмытпаңыз.
+        </p>
+    </div>
+
+    <div class="hidden lg:block absolute top-24 right-10 text-right">
+        <div class="bg-yellow-100 text-yellow-700 p-4 rounded-2xl font-black shadow-sm text-sm">
+            🔥 520 бала <br>
+            <span class="font-normal">қазір онлайн</span>
+        </div>
+    </div>
+
+    <div class="w-full max-w-2xl flex justify-between items-center mb-6 mt-10">
+        <div class="flex items-center space-x-2 bg-white px-4 py-2 rounded-full shadow-sm">
+            <span class="text-xl">🏆</span>
+            <span id="score" class="font-bold text-gray-700">0 упай</span>
+        </div>
+        <div class="flex-1 mx-4">
+            <div class="h-4 bg-gray-200 rounded-full overflow-hidden shadow-inner">
+                <div id="progBar" class="h-full bg-blue-500 w-0 transition-all duration-500"></div>
+            </div>
+        </div>
+        <div id="levelTag" class="bg-blue-600 text-white px-4 py-1 rounded-full font-bold shadow-md text-sm">1-деңгей</div>
+    </div>
+
+    <div class="character-box mb-4">
+        <div class="bg-white p-4 rounded-2xl shadow-lg relative border-2 border-blue-100 max-w-[280px] mx-auto">
+            <p id="bubbleText" class="text-sm font-bold text-gray-600 italic">Сәлем! Есепті шешуге дайынсың ба? 🚀</p>
+            <div class="absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-white border-b-2 border-r-2 border-blue-100 rotate-45"></div>
+        </div>
+        <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Qalan&backgroundColor=b6e3f4" alt="Robot" class="w-24 h-24 mx-auto mt-2">
+    </div>
+
+    <div class="main-card w-full max-w-2xl p-8">
+        <h2 id="title" class="text-3xl font-black text-gray-800 mb-2 text-center">Санды екі еселе</h2>
+        <p id="desc" class="text-gray-500 mb-6 text-center text-lg italic decoration-blue-200 decoration-2">n санын 2-ге көбейтетін функция жаз.</p>
+
+        <textarea id="code" class="code-area w-full h-32 p-4 text-xl focus:ring-4 focus:ring-blue-500/20 outline-none mb-6" spellcheck="false">function task(n) {
+  return 
+}</textarea>
+
+        <button onclick="evaluateTask()" class="btn-primary w-full text-white text-2xl font-black py-5 rounded-2xl tracking-widest">
+            ТЕКСЕРУ
+        </button>
+    </div>
+
+    <div class="hidden lg:block absolute bottom-10 left-10">
+        <div class="bg-white p-3 rounded-2xl shadow-sm border border-gray-100 flex items-center space-x-2">
+            <span class="text-blue-500 font-black">?</span>
+            <p class="text-[10px] text-gray-400 font-bold uppercase tracking-tighter">Көмек керек пе?</p>
+        </div>
+    </div>
+
+    <div class="hidden lg:block absolute bottom-10 right-10">
+        <p class="italic text-[10px] text-slate-400 font-bold bg-white/30 px-3 py-1 rounded-full uppercase">
+            v1.0.4 - Жаңартылды
+        </p>
+    </div>
+
+    <script>
+        const levels = [
+            { t: "Санды екі еселе", d: "n санын 2-ге көбейт.", check: (f)=>f(5)===10, msg: "Керемет! Сен нағыз алғырсың!" },
+            { t: "Бөлуді үйрен", d: "n санын 2-ге бөл.", check: (f)=>f(10)===5, msg: "Өте жақсы! Математика сенің стилің!" },
+            { t: "Сәлемдесу", d: "Сөзге '!' қосып қайтар.", check: (f)=>f("Сәлем")==="Сәлем!", msg: "Жарайсың! Программалаушы болып кеттің!" }
+        ];
+
+        let cur = 0;
+        let points = 0;
+
+        function evaluateTask() {
+            try {
+                const userCode = document.getElementById('code').value;
+                const fn = new Function('n', userCode + "\n return task(n);");
+                
+                if(levels[cur].check(fn)) {
+                    confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+                    points += 100;
+                    document.getElementById('score').innerText = points + " упай";
+                    document.getElementById('bubbleText').innerText = levels[cur].msg;
+                    
+                    cur++;
+                    if(cur < levels.length) {
+                        setTimeout(nextLevel, 2000);
+                    } else {
+                        finish();
+                    }
+                } else {
+                    document.getElementById('bubbleText').innerText = "Ой, қате кетті! 🤔";
+                }
+            } catch(e) {
+                document.getElementById('bubbleText').innerText = "Кодта ақау бар! 🛠️";
+            }
+        }
+
+        function nextLevel() {
+            document.getElementById('title').innerText = levels[cur].t;
+            document.getElementById('desc').innerText = levels[cur].d;
+            document.getElementById('levelTag').innerText = (cur+1) + "-деңгей";
+            document.getElementById('progBar').style.width = (cur / levels.length * 100) + "%";
+            document.getElementById('code').value = "function task(n) {\n  return \n}";
+        }
+
+        function finish() {
+            document.querySelector('.main-card').innerHTML = `<h2 class="text-4xl font-black text-center text-green-500">🏆 ЖЕҢІС!</h2><p class="text-center mt-4 text-gray-600 font-bold">Барлығы аяқталды!</p>`;
+            document.getElementById('progBar').style.width = "100%";
+        }
+    </script>
+</body>
+</html>
